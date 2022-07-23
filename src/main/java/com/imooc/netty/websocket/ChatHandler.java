@@ -32,7 +32,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 			throws Exception {
 		// 获取客户端传输过来的消息
 		String content = msg.text();
-		System.out.println("接受到的数据：" + content);
+		//System.out.println(" message: " + content);
 		
 //		for (Channel channel: clients) {
 //			channel.writeAndFlush(
@@ -40,12 +40,16 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 //						"[服务器在]" + LocalDateTime.now() 
 //						+ "接受到消息, 消息为：" + content));
 //		}
-		// 下面这个方法，和上面的for循环，一致
-		clients.writeAndFlush(
-				new TextWebSocketFrame(
-						"[服务器在]" + LocalDateTime.now() 
-						+ "接受到消息, 消息为：" + content));
-		
+        if("xintiao".equals(content)){
+            System.out.println(" xintiao " );
+        }else {
+            // 下面这个方法，和上面的for循环，一致
+            clients.writeAndFlush(
+                    new TextWebSocketFrame(
+                            "sever acceptmessage: " + content));
+
+        }
+
 	}
 
 	/**
@@ -72,8 +76,9 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
  		if (evt instanceof IdleStateEvent) {
 			IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
 			if (idleStateEvent.state() == IdleState.ALL_IDLE) {
-				System.out.println("已经5秒没有收到信息！");
+				System.out.println("已经12秒没有收到信息！");
 				//向客户端发送消息
+                ctx.channel().close();
  			}
 		}
 		super.userEventTriggered(ctx, evt);

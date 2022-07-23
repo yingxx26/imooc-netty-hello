@@ -22,6 +22,7 @@
 						CHAT.socket = new WebSocket("ws://192.168.3.34:8088/ws");
 						CHAT.socket.onopen = function() {
 							console.log("连接建立成功...");
+							setInterval("CHAT.keepLive()",12*1000);
 						},
 						CHAT.socket.onclose = function() {
 							console.log("连接关闭...");
@@ -42,6 +43,10 @@
 				chat: function() {
 					var msg = document.getElementById("msgContent");
 					CHAT.socket.send(msg.value);
+				},
+				keepLive: function () {
+					var msg1="xintiao";
+					CHAT.socket.send(msg1);
 				}
 			};
 			

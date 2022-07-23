@@ -14,7 +14,7 @@ public class WSServerInitialzer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        pipeline.addLast(new IdleStateHandler(5, 5, 5));
+        pipeline.addLast(new IdleStateHandler(15, 15, 15));
 
         // websocket 基于http协议，所以要有http编解码器
         pipeline.addLast(new HttpServerCodec());
