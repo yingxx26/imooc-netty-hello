@@ -2,12 +2,18 @@ package com.imooc.netty.websocket;
 
 import java.time.LocalDateTime;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 /**
@@ -61,6 +67,16 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 							+ ctx.channel().id().asShortText());
 	}
 
-	
+	@Override
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+ 		if (evt instanceof IdleStateEvent) {
+			IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
+			if (idleStateEvent.state() == IdleState.ALL_IDLE) {
+				System.out.println("已经5秒没有收到信息！");
+				//向客户端发送消息
+ 			}
+		}
+		super.userEventTriggered(ctx, evt);
+	}
 	
 }
