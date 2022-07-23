@@ -41,6 +41,9 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
 //						+ "接受到消息, 消息为：" + content));
 //		}
         if("xintiao".equals(content)){
+        	//接受前端心跳，
+			// （光瓶服务器自己的心跳是不行的，服务器只是定时剔除）
+			//需要前端来保持
             System.out.println(" xintiao " );
         }else {
             // 下面这个方法，和上面的for循环，一致
